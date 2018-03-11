@@ -7,7 +7,7 @@ screen = pygame.Surface((screen_width, screen_height))
 # screen.fill((80, 80, 80))
 screen.fill((244, 255, 193))
 # player1 = pygame.Surface((rect_width, rect_height))
-player1 = posStay
+player1 = posFaceStep1
 # player1.fill((90, 140, 200))
 player2 = pygame.Surface((rect_width, rect_height))
 player2.fill((90, 160, 90))
@@ -20,7 +20,7 @@ def draw_bomb(screen, color, X, Y, width, height, arr, count):
         # screen.fill((80,80,80))
     arr[count] = X, Y
     # pygame.draw.rect(screen, color, (X, Y, width, height), 5)
-    screen.blit(bombPNG,(X,Y))
+    screen.blit(bombPNG, (X, Y))
     print(arr)
     print(count)
     return count
@@ -29,6 +29,18 @@ while done:
     timeNow = time.time() * 10**9
     delta += timeNow - lastTime
     lastTime = timeNow
+    animationTime = int(time.clock() * 10 ** 3)
+    pygame.display.set_caption(str(animationSkipTime))
+
+    if animationTime - animationSkipTime > 150:
+        print(animCount)
+        animationSkipTime += 150
+        animCount += 1
+
+        if animCount == len(animArray) :
+            animCount = 0
+
+        playerPos = animArray[animCount]
 
     if delta >= PartTime:
         # events
@@ -42,15 +54,19 @@ while done:
                 if e.key == pygame.K_ESCAPE:
                     done = False
                 if e.key == pygame.K_d:
+                    animArray = animArray3
                     y1_speed = 0
                     x1_speed = 4
                 if e.key == pygame.K_a:
+                    animArray = animArray4
                     y1_speed = 0
                     x1_speed = -4
                 if e.key == pygame.K_w:
+                    animArray = animArray2
                     x1_speed = 0
                     y1_speed = -4
                 if e.key == pygame.K_s:
+                    animArray = animArray1
                     x1_speed = 0
                     y1_speed = 4
                 if e.key == pygame.K_SPACE:
@@ -80,6 +96,9 @@ while done:
                 if (player2_x <= pos[0] <= player2_x + rect_width) and (player2_y <= pos[1] <= player2_y + rect_height):
                     soundBoom.play()
                     print("p1 win")
+                    window.blit(goal_font.render('p1 WIN', 3, (0, 0, 0)),
+                                (screen_width / 2 - 140, screen_height / 2 - 80))
+                    pygame.display.flip()
                     pygame.time.delay(1000)
                     screen.fill((244, 255, 193))
                     player1_x = 50
@@ -106,6 +125,9 @@ while done:
             try:
                 if (player1_x <= pos[0] <= player1_x + rect_width) and (player1_y <= pos[1] <= player1_y + rect_height):
                     soundBoom.play()
+                    window.blit(goal_font.render('p2 WIN', 3, (0, 0, 0)),
+                                (screen_width / 2 - 140, screen_height / 2 - 80))
+                    pygame.display.flip()
                     print("p2 win")
                     pygame.time.delay(1000)
                     screen.fill((244, 255, 193))
@@ -153,20 +175,22 @@ while done:
         player2_y += y2_speed
 
         window.blit(screen, (0, 0))
-        window.blit(player1, (player1_x, player1_y))
+        window.blit(playerPos, (player1_x, player1_y))
         window.blit(player2,(player2_x, player2_y))
-        # if timer != int(time.clock()):
-        #     timer = int(time.clock())
-        #     screen.fill((80, 80, 80))
-        #     print("updated")
+        
         # pygame.display.flip()
         updates += 1
         delta = 0
     pygame.display.flip()
     frames += 1
+		
     if (time.time() * 10**3 - timer > 1000):
         timer += 1000
         pygame.display.set_caption("updates: " + str(frames) + "  |  " + "frames: " + str(updates))
        # print("updates: " + str(frames) + "  |  " + "frames: " + str(updates))
         updates = 0
         frames = 0
+    if mytimer != int(time.clock()):
+        mytimer = int(time.clock())
+        screen.fill((244, 255, 193))
+        print("updated")            
