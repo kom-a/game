@@ -22,18 +22,27 @@ def draw_bomb(screen, color, X, Y, width, height, arr, count):
     # pygame.draw.rect(screen, color, (X, Y, width, height), 5)
     screen.blit(bombPNG, (X, Y))
     print(arr)
-    print(count)
     return count
+
+
+def boom(x, y):
+    for pos in boomAnim:
+        window.blit(pos, (x, y))
+        pygame.time.delay(75)
+        screen.fill((244,255,193))
+        pygame.display.flip()
+
+
+
 
 while done:
     timeNow = time.time() * 10**9
     delta += timeNow - lastTime
     lastTime = timeNow
     animationTime = int(time.clock() * 10 ** 3)
-    pygame.display.set_caption(str(animationSkipTime))
+    # pygame.display.set_caption(str(animationTime))
 
     if animationTime - animationSkipTime > 150:
-        print(animCount)
         animationSkipTime += 150
         animCount += 1
 
@@ -95,6 +104,7 @@ while done:
             try:
                 if (player2_x <= pos[0] <= player2_x + rect_width) and (player2_y <= pos[1] <= player2_y + rect_height):
                     soundBoom.play()
+                    boom(pos[0], pos[1])
                     print("p1 win")
                     window.blit(goal_font.render('p1 WIN', 3, (0, 0, 0)),
                                 (screen_width / 2 - 140, screen_height / 2 - 80))
@@ -125,6 +135,7 @@ while done:
             try:
                 if (player1_x <= pos[0] <= player1_x + rect_width) and (player1_y <= pos[1] <= player1_y + rect_height):
                     soundBoom.play()
+                    boom(pos[0], pos[1])
                     window.blit(goal_font.render('p2 WIN', 3, (0, 0, 0)),
                                 (screen_width / 2 - 140, screen_height / 2 - 80))
                     pygame.display.flip()
@@ -150,7 +161,7 @@ while done:
             except IndexError:
                 pass
 
-        if player1_x <=0:
+        if player1_x <= 0:
             x1_speed = -x1_speed
         if player1_x >= screen_width - rect_width:
             x1_speed = -x1_speed

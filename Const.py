@@ -1,6 +1,6 @@
 import pygame
 import time
-import threading
+
 pygame.init()
 pygame.font.init()
 screen_width = 1280
@@ -56,6 +56,18 @@ posRightStep3 = pygame.image.load("assets\PNG\Default size\Player\player_19.png"
 posLeftStep1 = pygame.image.load("assets\PNG\Default size\Player\player_20.png")
 posLeftStep2 = pygame.image.load("assets\PNG\Default size\Player\player_21.png")
 posLeftStep3 = pygame.image.load("assets\PNG\Default size\Player\player_22.png")
+
+boomAnimStep1 = pygame.image.load("assets\explosion\step1.png")
+boomAnimStep2 = pygame.image.load("assets\explosion\step2.png")
+boomAnimStep3 = pygame.image.load("assets\explosion\step3.png")
+boomAnimStep4 = pygame.image.load("assets\explosion\step4.png")
+boomAnimStep5 = pygame.image.load("assets\explosion\step5.png")
+boomAnimStep6 = pygame.image.load("assets\explosion\step6.png")
+boomAnimStep7 = pygame.image.load("assets\explosion\step7.png")
+
+boomAnim = [boomAnimStep1,boomAnimStep2,boomAnimStep3,boomAnimStep4,boomAnimStep5,boomAnimStep6,boomAnimStep7]
+
+boomAnimCount = 0
 
 playerPos = posFaceStep1
 
